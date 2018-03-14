@@ -1,24 +1,31 @@
 require recipes-bsp/u-boot/u-boot.inc
-
+VERSION = "2013.10"
 FILESEXTRAPATHS_prepend := "${THISDIR}/${PN}-${PV}:"
+FILESEXTRAPATHS_prepend := "${THISDIR}/${PN}-2013.10:"
 
 # No patches for other machines yet
 COMPATIBLE_MACHINE = "creator-ci20"
 
-BRANCH = "ci20-v2013.10"
+BRANCH = "ci20-v${VERSION}"
+#BRANCH = "v2018.01"
+#TAG = "v2018.01"
 SRC_URI = "git://github.com/MIPS/CI20_u-boot;branch=${BRANCH}"
+#SRC_URI = "git://git.denx.de/u-boot.git"
 
-#SRC_URI += "file://0001-mmc-up-spt-text.patch \
-#            file://mips_fixup.patch \
-#"
+SRC_URI += " \
+            file://0001-copy-compiler-gcc5.h-to-missing-compiler-gcc6.h.patch \
+            file://0002-copy-compiler-gcc5.h-to-missing-compiler-gcc7.h.patch"
 
 SRCREV = "a4f583551d0025eb957ee5c9cb68657a429e4914"
 
 PV = "${BRANCH}"
 
+LICENSE = "GPLv2"
+
 LIC_FILES_CHKSUM = "file://README;beginline=2;endline=5;md5=3c0cec9329dbcd30c8b9e7f56a12b71e"
 
 S = "${WORKDIR}/git"
+B = "${S}"
 
 TARGET_LDFLAGS=""
 UBOOT_EXT = "img"
@@ -32,13 +39,14 @@ UBOOT_SYMLINK = "u-boot-${MACHINE}.${UBOOT_EXT}"
 UBOOT_MAKE_TARGET = "all"
 UBOOT_SPL = "u-boot-spl.bin"
 UBOOT_SPL_IMAGE = "u-boot-${MACHINE}-${PV}-${PR}-spl.bin"
+EXTRA_OECONF = "cd ../git"
 
 do_configure () {
     oe_runmake  ${UBOOT_MACHINE}
 }
 
 do_compile () {
-    oe_runmake ${UBOOT_MAKE_TARGET}
+    oe_runmake ${UBOOT_MAKE_TARGET} 
 }
 
 do_install () {
