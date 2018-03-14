@@ -17,12 +17,12 @@ BOOTDD_VOLUME_ID ?= "${MACHINE}"
 IMAGE_ROOTFS_ALIGNMENT = "2048"
 
 SDIMG_ROOTFS_TYPE ?= "ext4"
-SDIMG_ROOTFS = "${DEPLOY_DIR_IMAGE}/${IMAGE_NAME}.rootfs.${SDIMG_ROOTFS_TYPE}"
+SDIMG_ROOTFS = "${IMGDEPLOYDIR}/${IMAGE_NAME}.rootfs.${SDIMG_ROOTFS_TYPE}"
 
 # Boot partition size [in KiB]
 BOOT_SPACE ?= "102400"
 
-IMAGE_DEPENDS_sdcard = "parted-native:do_populate_sysroot \
+do_image_sdcard[depends] += "parted-native:do_populate_sysroot \
                         dosfstools-native:do_populate_sysroot \
                         mtools-native:do_populate_sysroot \
                         virtual/kernel:do_deploy \ 
@@ -52,7 +52,7 @@ generate_ci20_sdcard () {
     esac
 
     # Burn Partitions
-    dd if=${SDIMG_ROOTFS} of=${SDCARD} conv=notrunc seek=1 bs=$(expr ${IMAGE_ROOTFS_ALIGNMENT} \* 1024) && sync && sync
+    dd if=${SDIMG_ROOTFS} of=${SDCARD} conv=notrunc seek=1 bs=$(expr ${IMAGE_ROOTFS_ALIGNMENT} \* 1024) && /bin/sync && /bin/sync
 }
 
 IMAGE_CMD_sdcard () {
