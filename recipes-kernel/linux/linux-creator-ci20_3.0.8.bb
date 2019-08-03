@@ -3,6 +3,8 @@ include recipes-kernel/linux/linux-jz.inc
 LINUX_VERSION ?= "3.0.8"
 FILESEXTRAPATHS_prepend := "${THISDIR}/${PN}-${LINUX_VERSION}:"
 
+DEPENDS += "lzop-native bc-native"
+
 KBRANCH = "ci20-v3.0.8"
 SRCREV = "c52aae2473591e25305239c4d62c176435f21e31"
 
