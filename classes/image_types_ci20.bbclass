@@ -22,17 +22,36 @@ SDIMG_ROOTFS = "${IMGDEPLOYDIR}/${IMAGE_NAME}.rootfs.${SDIMG_ROOTFS_TYPE}"
 # Boot partition size [in KiB]
 BOOT_SPACE ?= "102400"
 
-IMAGE_DEPENDS_sdcard = "parted-native:do_populate_sysroot \
-                        dosfstools-native:do_populate_sysroot \
-                        mtools-native:do_populate_sysroot \
-                        virtual/kernel:do_deploy \ 
-                        ${@d.getVar('IMAGE_BOOTLOADER', True) and d.getVar('IMAGE_BOOTLOADER', True) + ':do_deploy' or ''}"
+do_image_sdcard[depends] = "\
+    parted-native:do_populate_sysroot \
+    mtools-native:do_populate_sysroot \
+    dosfstools-native:do_populate_sysroot \
+    virtual/kernel:do_deploy \
+    ${IMAGE_BOOTLOADER}:do_deploy \
+"
+
+do_image_sdcard[recrdeps] = "do_build"
 
 SDCARD = "${IMGDEPLOYDIR}/${IMAGE_NAME}.rootfs.sdcard"
-SDCARD_GENERATION_COMMAND_creator-ci20 = "generate_ci20_sdcard"
 
-#
-generate_ci20_sdcard () {
+IMAGE_CMD_sdcard () {
+	if [ -z "${SDCARD_ROOTFS}" ]; then
+		bberror "SDCARD_ROOTFS is undefined. To use sdcard image from Ci20 BSP it needs to be defined."
+		exit 1
+	fi
+    
+    ROOTFS_SIZE=`du -bks ${SDIMG_ROOTFS} | awk '{print $1}'`
+    # Round up RootFS size to the alignment size as well
+    echo "RFS size ${ROOTFS_SIZE}"
+    SDIMG_SIZE=$(expr ${IMAGE_ROOTFS_ALIGNMENT} + ${ROOTFS_SIZE})
+
+    echo "Creating filesystem with RootFS ${ROOTFS_SIZE_ALIGNED} KiB"
+    echo "Creating filesystem total size ${SDIMG_SIZE} KiB"
+
+    # Initialize sdcard image file
+    echo "dd if=/dev/zero of=${SDCARD} bs=1 count=0 seek=$(expr 1024 \* ${SDIMG_SIZE})"
+    dd if=/dev/zero of=${SDCARD} bs=1 count=0 seek=$(expr 1024 \* ${SDIMG_SIZE})
+
 	# Create partition table
     parted -s ${SDCARD} mklabel msdos
 
@@ -55,30 +74,9 @@ generate_ci20_sdcard () {
     dd if=${SDIMG_ROOTFS} of=${SDCARD} conv=notrunc seek=1 bs=$(expr ${IMAGE_ROOTFS_ALIGNMENT} \* 1024) && sync && sync
 }
 
-IMAGE_CMD_sdcard () {
-	if [ -z "${SDCARD_ROOTFS}" ]; then
-		bberror "SDCARD_ROOTFS is undefined. To use sdcard image from Ci20 BSP it needs to be defined."
-		exit 1
-	fi
-    
-    ROOTFS_SIZE=`du -bks ${SDIMG_ROOTFS} | awk '{print $1}'`
-    # Round up RootFS size to the alignment size as well
-    echo "RFS size ${ROOTFS_SIZE}"
-    SDIMG_SIZE=$(expr ${IMAGE_ROOTFS_ALIGNMENT} + ${ROOTFS_SIZE})
-
-    echo "Creating filesystem with RootFS ${ROOTFS_SIZE_ALIGNED} KiB"
-    echo "Creating filesystem total size ${SDIMG_SIZE} KiB"
-
-    # Initialize sdcard image file
-    echo "dd if=/dev/zero of=${SDCARD} bs=1 count=0 seek=$(expr 1024 \* ${SDIMG_SIZE})"
-    dd if=/dev/zero of=${SDCARD} bs=1 count=0 seek=$(expr 1024 \* ${SDIMG_SIZE})
-
-	${SDCARD_GENERATION_COMMAND}
-}
-
 # The sdcard requires the rootfs filesystem to be built before using
 # it so we must make this dependency explicit.
-IMAGE_TYPEDEP_sdcard = "${@d.getVar('SDCARD_ROOTFS', 1).split('.')[-1]}"
+IMAGE_TYPEDEP_sdcard = "${SDIMG_ROOTFS_TYPE}"
 
 deploy_kernel () {
 	rm -f ${IMAGE_ROOTFS}/boot/${KERNEL_IMAGETYPE}*
