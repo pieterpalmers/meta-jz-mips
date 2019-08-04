@@ -5,6 +5,8 @@ FILESEXTRAPATHS_prepend := "${THISDIR}/${PN}-${PV}:"
 # No patches for other machines yet
 COMPATIBLE_MACHINE = "creator-ci20"
 
+SECURITY_LDFLAGS = "-z,relro -z,now"
+
 BRANCH = "ci20-v2013.10"
 SRC_URI = "git://github.com/MIPS/CI20_u-boot;branch=${BRANCH}"
 
