@@ -71,7 +71,7 @@ IMAGE_CMD_sdcard () {
     esac
 
     # Burn Partitions
-    dd if=${SDIMG_ROOTFS} of=${SDCARD} conv=notrunc seek=1 bs=$(expr ${IMAGE_ROOTFS_ALIGNMENT} \* 1024) && sync && sync
+    dd if=${SDIMG_ROOTFS} of=${SDCARD} conv=notrunc seek=1 bs=$(expr ${IMAGE_ROOTFS_ALIGNMENT} \* 1024) && /bin/sync && /bin/sync
 }
 
 # The sdcard requires the rootfs filesystem to be built before using
