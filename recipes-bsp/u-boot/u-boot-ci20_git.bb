@@ -7,6 +7,9 @@ COMPATIBLE_MACHINE = "creator-ci20"
 
 SECURITY_LDFLAGS = "-z,relro -z,now"
 
+PROVIDES += "u-boot"
+RPROVIDES_${PN} += "u-boot"
+
 BRANCH = "ci20-v2013.10"
 SRC_URI = "git://github.com/MIPS/CI20_u-boot;branch=${BRANCH}"
 
