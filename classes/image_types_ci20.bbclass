@@ -16,7 +16,7 @@ BOOTDD_VOLUME_ID ?= "${MACHINE}"
 # Set alignment to 4MB [in KiB]
 IMAGE_ROOTFS_ALIGNMENT = "2048"
 
-SDIMG_ROOTFS_TYPE ?= "ext4"
+SDIMG_ROOTFS_TYPE ?= "ext3"
 SDIMG_ROOTFS = "${IMGDEPLOYDIR}/${IMAGE_NAME}.rootfs.${SDIMG_ROOTFS_TYPE}"
 
 # Boot partition size [in KiB]
