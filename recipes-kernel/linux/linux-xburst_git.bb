@@ -14,7 +14,7 @@ PV = "${LINUX_VERSION}+git${SRCPV}"
 
 S = "${WORKDIR}/git"
 
-KBRANCH = "xburst-wip"
+KBRANCH = "xburst"
 SRCREV = "${AUTOREV}"
 
 DEPENDS += "lzop-native bc-native"
