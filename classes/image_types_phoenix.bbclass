@@ -83,5 +83,5 @@ deploy_kernel () {
 	cp ${DEPLOY_DIR_IMAGE}/${KERNEL_IMAGETYPE} ${IMAGE_ROOTFS}/boot/
 }
 
-ROOTFS_POSTPROCESS_COMMAND += " deploy_kernel ; "
+ROOTFS_POSTPROCESS_COMMAND_sdcard += " deploy_kernel ; "
 

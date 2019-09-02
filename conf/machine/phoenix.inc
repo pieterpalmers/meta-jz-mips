@@ -23,8 +23,6 @@ PREFERRED_VERSION_linux-x1000 ?= "3.18%"
 PREFERRED_PROVIDER_u-boot = "u-boot-phoenix"
 PREFERRED_PROVIDER_u-boot-fw-utils = "u-boot-fw-utils-phoenix"
 
-MACHINE_ESSENTIAL_EXTRA_RDEPENDS = "kernel kernel-modules"
-
 # the SFC NOR on the phoenix has a 0x8000 erasesize
 JFFS2_ERASEBLOCK = "0x8000"
 
@@ -35,11 +33,6 @@ IMAGE_FSTYPES ?= "tar.bz2 ext3 sdcard"
 
 MACHINE_FEATURES += " wifi bluetooth"
 
-# For mender to work we have to install the kernel & devicetree.
-#IMAGE_INSTALL_append=" kernel kernel-devicetree"
-
-# The mender post-install scripts can install u-boot to do an upgrade
-IMAGE_INSTALL_append=" u-boot-phoenix "
 
 # Machine configuration common to all MuuseLabs hardware releases.
 
@@ -70,8 +63,16 @@ MACHINE_FEATURES_BACKFILL_CONSIDERED = "qemu-usermode"
 # Try to speed up the build a little?
 DISTRO_FEATURES_BACKFILL_CONSIDERED = "gobject-introspection-data"
 
+# if no device manager is used, this table will give the devices
+IMAGE_DEVICE_TABLES = "conf/machine/device_table-phoenix.txt"
+
 #disable Mender
 BBMASK_append = " meta-mender/meta-mender-core/recipes-bsp/u-boot"
 
-# if no device manager is used, this table will give the devices
-IMAGE_DEVICE_TABLES = "conf/machine/device_table-phoenix.txt"
+# For mender to work we have to install the kernel & devicetree.
+#IMAGE_INSTALL_append=" kernel kernel-devicetree"
+
+# The mender post-install scripts can install u-boot to do an upgrade
+#IMAGE_INSTALL_append=" u-boot-phoenix "
+
+KERNEL_CONSOLE="ttyS2"
