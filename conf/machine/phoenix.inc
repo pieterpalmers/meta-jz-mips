@@ -9,7 +9,7 @@ IMAGE_CLASSES += "image_types_phoenix"
 
 DEFAULTTUNE = "mips32r2el"
 MACHINE_FEATURES = "serial"
-SERIAL_CONSOLE="57200 ttyS2"
+SERIAL_CONSOLE="115200 ttyS2"
 
 EXTRA_IMAGEDEPENDS += "u-boot-phoenix"
 
@@ -25,7 +25,12 @@ PREFERRED_PROVIDER_u-boot-fw-utils = "u-boot-fw-utils-phoenix"
 
 MACHINE_ESSENTIAL_EXTRA_RDEPENDS = "kernel kernel-modules"
 
-SDCARD_ROOTFS ?= "${IMGDEPLOYDIR}/${IMAGE_NAME}.rootfs.ext3"
+# the SFC NOR on the phoenix has a 0x8000 erasesize
+JFFS2_ERASEBLOCK = "0x8000"
+
+SDCARD_ROOTFS_TYPE ?= "ext3"
+SDCARD_ROOTFS ?= "${IMGDEPLOYDIR}/${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.${SDCARD_ROOTFS_TYPE}"
+
 IMAGE_FSTYPES ?= "tar.bz2 ext3 sdcard"
 
 MACHINE_FEATURES += " wifi bluetooth"
@@ -49,8 +54,7 @@ MACHINE_FEATURES_remove = "touchscreen"
 # add USB debugging and launch a console on the first USB port exposed
 # This is a machine setting, not an image setting.
 # Used by bitbake sysvinit-inittab to create /etc/inittab in the rootfs.
-SERIAL_CONSOLES_append = "57200;ttyS2 115200;ttyGS0"
-IMAGE_INSTALL_append = " ml-usb-debug"
+#SERIAL_CONSOLES_append = "115200;ttyS2 115200;ttyGS0"
 
 # Generate /etc/build.
 # TODO(wdm) Reproducible builds. Fix the recipes so that the layer hashes
