@@ -16,9 +16,6 @@ BOOTDD_VOLUME_ID ?= "${MACHINE}"
 # Set alignment to 4MB [in KiB]
 IMAGE_ROOTFS_ALIGNMENT = "2048"
 
-SDIMG_ROOTFS_TYPE ?= "ext3"
-SDIMG_ROOTFS = "${IMGDEPLOYDIR}/${IMAGE_NAME}.rootfs.${SDIMG_ROOTFS_TYPE}"
-
 # Boot partition size [in KiB]
 BOOT_SPACE ?= "102400"
 
@@ -40,7 +37,7 @@ IMAGE_CMD_sdcard () {
 		exit 1
 	fi
     
-    ROOTFS_SIZE=`du -bks ${SDIMG_ROOTFS} | awk '{print $1}'`
+    ROOTFS_SIZE=`du -bks ${SDCARD_ROOTFS} | awk '{print $1}'`
     # Round up RootFS size to the alignment size as well
     echo "RFS size ${ROOTFS_SIZE}"
     SDIMG_SIZE=$(expr ${IMAGE_ROOTFS_ALIGNMENT} + ${ROOTFS_SIZE})
@@ -71,12 +68,12 @@ IMAGE_CMD_sdcard () {
     esac
 
     # Burn Partitions
-    dd if=${SDIMG_ROOTFS} of=${SDCARD} conv=notrunc seek=1 bs=$(expr ${IMAGE_ROOTFS_ALIGNMENT} \* 1024) && /bin/sync && /bin/sync
+    dd if=${SDCARD_ROOTFS} of=${SDCARD} conv=notrunc seek=1 bs=$(expr ${IMAGE_ROOTFS_ALIGNMENT} \* 1024) && /bin/sync && /bin/sync
 }
 
 # The sdcard requires the rootfs filesystem to be built before using
 # it so we must make this dependency explicit.
-IMAGE_TYPEDEP_sdcard = "${SDIMG_ROOTFS_TYPE}"
+IMAGE_TYPEDEP_sdcard = "${SDCARD_ROOTFS_TYPE}"
 
 deploy_kernel () {
 	rm -f ${IMAGE_ROOTFS}/boot/${KERNEL_IMAGETYPE}*

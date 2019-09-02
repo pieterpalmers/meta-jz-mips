@@ -27,7 +27,9 @@ PREFERRED_PROVIDER_u-boot-fw-utils = "u-boot-fw-utils-ci20"
 
 MACHINE_ESSENTIAL_EXTRA_RDEPENDS = "kernel kernel-modules"
 
-SDCARD_ROOTFS ?= "${IMGDEPLOYDIR}/${IMAGE_NAME}.rootfs.ext3"
+SDCARD_ROOTFS_TYPE ?= "ext3"
+SDCARD_ROOTFS ?= "${IMGDEPLOYDIR}/${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.${SDCARD_ROOTFS_TYPE}"
+
 IMAGE_FSTYPES ?= "tar.bz2 ext3 sdcard"
 
 MACHINE_FEATURES += " wifi bluetooth"
