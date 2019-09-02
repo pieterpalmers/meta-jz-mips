@@ -54,7 +54,6 @@ MACHINE_FEATURES_remove = "touchscreen"
 # This is a machine setting, not an image setting.
 # Used by bitbake sysvinit-inittab to create /etc/inittab in the rootfs.
 SERIAL_CONSOLES_append = "115200;ttyS4 115200;ttyGS0"
-IMAGE_INSTALL_append = " ml-usb-debug"
 
 # Generate /etc/build.
 # TODO(wdm) Reproducible builds. Fix the recipes so that the layer hashes
