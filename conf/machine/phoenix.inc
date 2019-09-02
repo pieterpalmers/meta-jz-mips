@@ -68,3 +68,6 @@ DISTRO_FEATURES_BACKFILL_CONSIDERED = "gobject-introspection-data"
 
 #disable Mender
 BBMASK_append = " meta-mender/meta-mender-core/recipes-bsp/u-boot"
+
+# if no device manager is used, this table will give the devices
+IMAGE_DEVICE_TABLES = "conf/machine/device_table-phoenix.txt"
