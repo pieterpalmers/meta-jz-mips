@@ -24,4 +24,4 @@ SRC_URI = "\
 	file://defconfig \
 	"
 
-COMPATIBLE_MACHINE = "(phoenix-sd)"
+COMPATIBLE_MACHINE = "(phoenix)"

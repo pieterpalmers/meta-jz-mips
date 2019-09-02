@@ -3,7 +3,7 @@ require recipes-bsp/u-boot/u-boot.inc
 FILESEXTRAPATHS_prepend := "${THISDIR}/${PN}-${PV}:"
 
 # No patches for other machines yet
-COMPATIBLE_MACHINE = "phoenix-sd"
+COMPATIBLE_MACHINE = "phoenix"
 
 SECURITY_LDFLAGS = "-z,relro -z,now"
 
