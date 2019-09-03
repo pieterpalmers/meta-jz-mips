@@ -32,29 +32,32 @@
 /dev/cuse            c      600     root    root    10      62      -       -       -
 /dev/full            c      600     root    root    1      7      -       -       -
 /dev/fuse            c      600     root    root    10      229      -       -       -
-/dev/mtp_usb            c      600     root    root    10      56      -       -       -
-/dev/network_latency            c      600     root    root    10      59      -       -       -
+/dev/mtp_usb         c      600     root    root    10      56      -       -       -
+/dev/network_latency c      600     root    root    10      59      -       -       -
 /dev/network_throughput            c      600     root    root    10      58      -       -       -
-/dev/nv_ro            c      600     root    root    251      0      -       -       -
-/dev/nv_wr            c      600     root    root    252      0      -       -       -
+/dev/nv_ro           c      600     root    root    251      0      -       -       -
+/dev/nv_wr           c      600     root    root    252      0      -       -       -
 /dev/ptmx            c      600     root    tty    5     2      -       -       -
 /dev/ptyp            c      600     root    tty    2     0      0       1       8
-/dev/rfkill            c      600     root    root    10     63      - - -
+/dev/rfkill          c      600     root    root    10     63      - - -
 /dev/rmem            c      600     root    root    10     61      - - -
-/dev/bus            d       755     root    root    -       -       -       -       -
-/dev/pts            d       755     root    root    -       -       -       -       -
-/dev/snd            d       755     root    root    -       -       -       -       -
-/dev/shm            d       755     root    root    -       -       -       -       -
+/dev/bus             d      755     root    root    -       -       -       -       -
+/dev/pts             d      755     root    root    -       -       -       -       -
+/dev/snd             d      755     root    root    -       -       -       -       -
+/dev/shm             d      755     root    root    -       -       -       -       -
+/dev/usb_accessory   c      600     root    root    10     55      - - -
+/dev/vcs             c      600     root    tty    7     0      - - -
+/dev/vcs1            c      600     root    tty    7     1      - - -
+/dev/vcsa            c      600     root    tty    7     128      - - -
+/dev/vcsa1           c      600     root    tty    7     129      - - -
 
-#drwxr-xr-x    3 root     root            60 Aug 21 12:26 bus
+/dev/timer   c      600     root    root    116     33      - - -
+/dev/pcmC0D2c   c      600     root    root    116     26      - - -
+/dev/pcmC0D1p   c      600     root    root    116     17      - - -
+/dev/pcmC0D1c   c      600     root    root    116     25      - - -
+/dev/pcmC0D0p   c      600     root    root    116     16      - - -
+/dev/pcmC0D0c   c      600     root    root    116     24      - - -
+/dev/controlC0   c      600     root    root    116     0      - - -
+
 #srw-rw-rw-    1 root     root             0 Aug 21 12:26 log
-#drwxr-xr-x    2 root     root             0 Jan  1  1970 pts
 #lrwxrwxrwx    1 root     root             9 Aug 21 12:26 root -> mtdblock2
-#drwxrwxrwt    2 root     root            40 Aug 21 12:26 shm
-#drwxr-xr-x    2 root     root           180 Aug 21 12:26 snd
-
-#crw-rw----    1 root     root       10,  55 Aug 21 12:26 usb_accessory
-#crw-rw----    1 root     tty         7,   0 Aug 21 12:26 vcs
-#crw-rw----    1 root     tty         7,   1 Aug 21 12:26 vcs1
-#crw-rw----    1 root     tty         7, 128 Aug 21 12:26 vcsa
-#crw-rw----    1 root     tty         7, 129 Aug 21 12:26 vcsa1
