@@ -18,6 +18,8 @@ KERNEL_IMAGETYPE = "uImage"
 PREFERRED_PROVIDER_virtual/kernel ?= "linux-x1000"
 PREFERRED_VERSION_linux-x1000 ?= "3.18%"
 
+#MACHINE_EXTRA_RRECOMMENDS = "ap6212a-fw"
+
 #PREFERRED_PROVIDER_virtual/kernel ?= "linux-xburst"
 
 PREFERRED_PROVIDER_u-boot = "u-boot-phoenix"
