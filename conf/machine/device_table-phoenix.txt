@@ -51,7 +51,7 @@
 /dev/vcsa            c      600     root    tty    7     128      - - -
 /dev/vcsa1           c      600     root    tty    7     129      - - -
 
-/dev/timer   c      600     root    root    116     33      - - -
+/dev/snd/timer   c      600     root    root    116     33      - - -
 /dev/snd/pcmC0D2c   c      600     root    root    116     26      - - -
 /dev/snd/pcmC0D1p   c      600     root    root    116     17      - - -
 /dev/snd/pcmC0D1c   c      600     root    root    116     25      - - -
