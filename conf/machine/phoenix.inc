@@ -28,10 +28,10 @@ PREFERRED_PROVIDER_u-boot-fw-utils = "u-boot-fw-utils-phoenix"
 # the SFC NOR on the phoenix has a 0x8000 erasesize
 JFFS2_ERASEBLOCK = "0x8000"
 
-SDCARD_ROOTFS_TYPE ?= "ext3"
+SDCARD_ROOTFS_TYPE ?= "ext4"
 SDCARD_ROOTFS ?= "${IMGDEPLOYDIR}/${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.${SDCARD_ROOTFS_TYPE}"
 
-IMAGE_FSTYPES ?= "tar.bz2 ext3 sdcard"
+IMAGE_FSTYPES ?= "jffs2 sdcard"
 
 MACHINE_FEATURES += " wifi bluetooth"
 

@@ -31,7 +31,7 @@ do_image_sdcard[recrdeps] = "do_build"
 
 SDCARD = "${IMGDEPLOYDIR}/${IMAGE_NAME}.rootfs.sdcard"
 
-IMAGE_CMD_sdcard () {
+disabled_IMAGE_CMD_sdcard () {
 	if [ -z "${SDCARD_ROOTFS}" ]; then
 		bberror "SDCARD_ROOTFS is undefined. To use sdcard image from Phoenix BSP it needs to be defined."
 		exit 1
@@ -74,9 +74,57 @@ IMAGE_CMD_sdcard () {
     /bin/sync && /bin/sync
 }
 
+IMAGE_CMD_sdcard () {
+	if [ -z "${SDCARD_ROOTFS}" ]; then
+		bberror "SDCARD_ROOTFS is undefined. To use sdcard image from Phoenix BSP it needs to be defined."
+		exit 1
+	fi
+    
+    ROOTFS_SIZE=`du -bks ${SDCARD_ROOTFS} | awk '{print $1}'`    
+
+    # Initialize sdcard image file
+    dd if=/dev/zero of=${SDCARD} bs=512 count=0 seek=1843300
+
+	# Create partition table
+    parted -s ${SDCARD} mklabel gpt
+    
+    # create the table as expected by the X1000 boot
+    parted -s ${SDCARD} mkpart boot        6144s   22527s
+    parted -s ${SDCARD} mkpart recovery   24576s   57343s
+    parted -s ${SDCARD} mkpart pretest    57344s   90111s
+    parted -s ${SDCARD} mkpart reserved   90112s  196607s
+    parted -s ${SDCARD} mkpart misc      196608s  204799s
+    parted -s ${SDCARD} mkpart cache     204800s  409599s
+    parted -s ${SDCARD} mkpart system    409600s 1843199s
+    #parted -s ${SDCARD} mkpart data     1843200s 6037438s
+
+    # Create rootfs partition to the end of disk
+    parted ${SDCARD} print
+#     case "${IMAGE_BOOTLOADER}" in
+#         u-boot-phoenix)
+#             # TODO: write uboot image to SPL position
+#             # write uboot image to SPL position
+#             #dd if=${DEPLOY_DIR_IMAGE}/u-boot-spl.bin of=${SDCARD} obs=512 seek=${UBOOT_SPL_POS}
+#             #dd if=${DEPLOY_DIR_IMAGE}/u-boot.${UBOOT_SUFFIX} of=${SDCARD} obs=1k seek=${UBOOT_BIN_POS}
+#             
+#             dd if=${DEPLOY_DIR_IMAGE}/u-boot.${UBOOT_SUFFIX} of=${SDCARD} obs=512 seek=${UBOOT_SPL_POS}
+#             dd if=/dev/zero of=${SDCARD} seek=526  count=32 bs=1k
+#         ;;
+#         *)
+#             bberror "Unknown IMAGE_BOOTLOADER value"
+#             exit 1
+#         ;;
+#     esac
+
+    # Burn Partitions
+    dd if=${SDCARD_ROOTFS} of=${SDCARD} conv=notrunc seek=409600 bs=512
+    /bin/sync && /bin/sync
+}
+
+
 # The sdcard requires the rootfs filesystem to be built before using
 # it so we must make this dependency explicit.
-IMAGE_TYPEDEP_sdcard = "ext3"
+IMAGE_TYPEDEP_sdcard = "ext4"
 
 deploy_kernel () {
 	rm -f ${IMAGE_ROOTFS}/boot/${KERNEL_IMAGETYPE}*
