@@ -6,24 +6,26 @@
 
 require conf/machine/include/tune-mips32r2.inc
 
+MACHINEOVERRIDES =. "x1000:"
+
 IMAGE_CLASSES += "image_types_x1000"
+
 DEFAULTTUNE = "mips32r2el"
 MACHINE_FEATURES = "serial"
 SERIAL_CONSOLE="115200 ttyS2"
 
-EXTRA_IMAGEDEPENDS += "u-boot-phoenix"
+EXTRA_IMAGEDEPENDS += "u-boot-x1000"
 
 KERNEL_IMAGETYPE = "uImage"
 
+#PREFERRED_PROVIDER_virtual/kernel ?= "linux-ingenic"
 PREFERRED_PROVIDER_virtual/kernel ?= "linux-x1000"
-PREFERRED_VERSION_linux-x1000 ?= "3.18%"
 
 #MACHINE_EXTRA_RRECOMMENDS = "ap6212a-fw"
 
-#PREFERRED_PROVIDER_virtual/kernel ?= "linux-xburst"
 
-PREFERRED_PROVIDER_u-boot = "u-boot-phoenix"
-PREFERRED_PROVIDER_u-boot-fw-utils = "u-boot-fw-utils-phoenix"
+PREFERRED_PROVIDER_u-boot = "u-boot-x1000"
+PREFERRED_PROVIDER_u-boot-fw-utils = "u-boot-fw-utils-x1000"
 
 # the SFC NOR on the phoenix has a 0x8000 erasesize
 JFFS2_ERASEBLOCK = "0x8000"
@@ -75,6 +77,6 @@ BBMASK_append = " meta-mender/meta-mender-core/recipes-bsp/u-boot"
 #IMAGE_INSTALL_append=" kernel kernel-devicetree"
 
 # The mender post-install scripts can install u-boot to do an upgrade
-#IMAGE_INSTALL_append=" u-boot-phoenix "
+#IMAGE_INSTALL_append=" u-boot-x1000 "
 
 KERNEL_CONSOLE="ttyS2"
