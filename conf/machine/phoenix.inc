@@ -5,8 +5,8 @@
 #@MAINTAINER: Pieter Palmers <pieter@muuselabs.com>
 
 require conf/machine/include/tune-mips32r2.inc
-IMAGE_CLASSES += "image_types_phoenix"
 
+IMAGE_CLASSES += "image_types_x1000"
 DEFAULTTUNE = "mips32r2el"
 MACHINE_FEATURES = "serial"
 SERIAL_CONSOLE="115200 ttyS2"

@@ -1,6 +1,6 @@
 inherit image_types
 
-IMAGE_BOOTLOADER ?= "u-boot-phoenix"
+IMAGE_BOOTLOADER ?= "u-boot-x1000"
 
 # Handle u-boot suffixes
 UBOOT_SUFFIX ?= "bin"
@@ -56,7 +56,7 @@ disabled_IMAGE_CMD_sdcard () {
     parted -s ${SDCARD} -- unit KiB mkpart primary ext2 ${IMAGE_ROOTFS_ALIGNMENT} -1s
     parted ${SDCARD} print
     case "${IMAGE_BOOTLOADER}" in
-        u-boot-phoenix)
+        u-boot-x1000)
             #dd if=${DEPLOY_DIR_IMAGE}/u-boot-spl.bin of=${SDCARD} obs=512 seek=${UBOOT_SPL_POS}
             #dd if=${DEPLOY_DIR_IMAGE}/u-boot.${UBOOT_SUFFIX} of=${SDCARD} obs=1k seek=${UBOOT_BIN_POS}
             # write uboot image to SPL position
@@ -101,7 +101,7 @@ IMAGE_CMD_sdcard () {
     # Create rootfs partition to the end of disk
     parted ${SDCARD} print
 #     case "${IMAGE_BOOTLOADER}" in
-#         u-boot-phoenix)
+#         u-boot-x1000)
 #             # TODO: write uboot image to SPL position
 #             # write uboot image to SPL position
 #             #dd if=${DEPLOY_DIR_IMAGE}/u-boot-spl.bin of=${SDCARD} obs=512 seek=${UBOOT_SPL_POS}
