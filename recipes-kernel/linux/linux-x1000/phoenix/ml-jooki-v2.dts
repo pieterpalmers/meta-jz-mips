@@ -87,6 +87,13 @@
 	pinctrl-0 = <&pins_i2c0>;
 };
 
+&uart0 {
+	status = "okay";
+
+	pinctrl-names = "default";
+	pinctrl-0 = <&pins_uart0>;
+};
+
 &uart2 {
 	status = "okay";
 
@@ -105,6 +112,7 @@
 
 &otg {
 	status = "okay";
+	dr_mode = "peripheral";
 };
 
 &msc0 {
@@ -156,6 +164,12 @@
 	pins_uart2: uart2 {
 		function = "uart2";
 		groups = "uart2-data-d";
+		bias-disable;
+	};
+
+	pins_uart0: uart0 {
+		function = "uart0";
+		groups = "uart0-data", "uart0-hwflow";
 		bias-disable;
 	};
 
